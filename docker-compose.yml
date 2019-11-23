@@ -1,0 +1,41 @@
+version: "3.5"
+
+services:
+  # CLIENT
+  uttt-www:
+    container_name: uttt-www
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - 80:3000
+    volumes:
+      - ./client/src:/home/react/app/src
+      - ./client/public:/home/react/app/public
+      - node_modules:/home/node/app/node_modules
+    networks:
+      - app-network
+    command: npm start  
+
+  # SERVER
+  uttt-server:  
+    container_name: uttt-server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ./server:/home/node/app
+      - node_modules:/home/node/app/node_modules
+    networks:
+      - app-network
+    command: npm start
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+  node_modules:
