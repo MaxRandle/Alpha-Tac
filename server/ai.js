@@ -9,7 +9,8 @@
       square: null,
       tile: null
     },
-    turn: -1
+    turn: -1,
+    victory: null
   }
 */
 

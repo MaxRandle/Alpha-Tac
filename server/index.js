@@ -3,7 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 
-const port = process.env.PORT || 8080;
+const port = 8080;
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -16,22 +16,14 @@ app.use(function(req, res, next) {
   next();
 });
 
-// serves the static react files
-app.use(express.static("build"));
-
 // routes
-
-app.get('/', (req, res) => {
-  console.log('Home route');
-  res.send('Hello world\n');
-});
-
-app.get("/move", (req, res) => {
-  console.log(req.body);
+app.post("/move", (req, res) => {
+  console.log("move");
   res.status(200);
-  res.send(randomMove(req.body));
+  const move = randomMove(req.body);
+  res.send(move);
 });
 
-app.listen(port, function () {
-  console.log(`App listening on ${port}!`);
+app.listen(port, () => {
+  console.log(`http://localhost:${port}`);
 });
