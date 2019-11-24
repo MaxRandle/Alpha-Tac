@@ -30,33 +30,24 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const checkVictory = array => {
-  let vicArray = [
-    array[0] + array[1] + array[2],
-    array[3] + array[4] + array[5],
-    array[6] + array[7] + array[8],
-    array[0] + array[3] + array[6],
-    array[1] + array[4] + array[7],
-    array[2] + array[5] + array[8],
-    array[0] + array[4] + array[8],
-    array[2] + array[4] + array[6]
-  ];
-  if (Math.max(...vicArray) === 3) {
-    return 1;
-  } else if (Math.min(...vicArray) === -3) {
-    return -1;
-  } else if (array.indexOf(null) === -1) {
-    return 0;
-  } else {
-    return null;
-  }
-};
-
 const Tile = props => {
   const classes = useStyles();
   const [boardState, setBoardState] = useContext(BoardStateContext);
   const [legal, setLegal] = useState(true);
   const { square, tile } = props;
+
+  const handleClick = () => {
+    if (legal) {
+      //play move
+      boardState.boardArray[square][tile] = boardState.turn;
+      setBoardState({
+        ...boardState,
+        boardArray: boardState.boardArray,
+        lastMove: { square, tile },
+        turn: boardState.turn * -1
+      });
+    }
+  };
 
   const getIcon = () => {
     if (boardState.boardArray[square][tile] === 1) {
@@ -66,48 +57,22 @@ const Tile = props => {
     }
   };
 
-  const handleClick = () => {
-    if (legal) {
-      // play the move
-      boardState.boardArray[square][tile] = boardState.turn;
-
-      // check local victory
-      boardState.victoryArray[square] = checkVictory(boardState.boardArray[square]);
-
-      // check global victory
-      boardState.victory = checkVictory(boardState.victoryArray);
-
-      setBoardState({
-        ...boardState,
-        victoryArray: boardState.victoryArray,
-        boardArray: boardState.boardArray,
-        lastMove: { square, tile },
-        turn: boardState.turn * -1,
-        victory: boardState.victory
-      });
-
-      // call ai
-    }
-  };
-
   useEffect(() => {
-    isLegal();
-  });
-
-  const isLegal = () => {
+    console.log("useEffect Tile");
+    //check tile is legal
     if (
       (boardState.lastMove.tile === square ||
         boardState.lastMove.tile === null ||
         boardState.victoryArray[boardState.lastMove.tile] !== null) &&
       boardState.boardArray[square][tile] === null &&
-      boardState.victory === null
-      // && boardState.turn === -1 // for when AI gets involved
+      boardState.victory === null &&
+      boardState.turn === -1 // for when AI gets involved
     ) {
       setLegal(true);
     } else {
       setLegal(false);
     }
-  };
+  }, [boardState.lastMove]);
 
   return (
     <Paper onClick={() => handleClick()} className={`${classes.tile} ${legal ? classes.legal : classes.illegal}`}>

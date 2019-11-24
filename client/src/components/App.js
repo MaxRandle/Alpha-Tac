@@ -4,8 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Board from "./Board";
 import { BoardStateContext } from "../contexts/BoardStateContext";
 
-const axios = require("axios");
-
 const useStyles = makeStyles(theme => ({
   container: {
     padding: theme.spacing(4),
@@ -15,27 +13,6 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: theme.spacing(4)
   }
 }));
-
-const callAPI = async boardState => {
-  console.log('API call');
-  const request = {
-    method: "GET",
-    url: "http://localhost:3000/move",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    data: boardState
-  };
-  console.log(request.data);
-  try {
-    const response = await axios(request);
-    console.log(response.data);
-    return request;
-  } catch (error) {
-    console.log(JSON.stringify(error.message));
-    return error;
-  }
-};
 
 const App = () => {
   const classes = useStyles();
@@ -80,7 +57,7 @@ const App = () => {
   return (
     <Container className={classes.container} maxWidth="sm">
       <Typography className={classes.block} variant="h3">
-        NEW Tic-Tac-Toe
+        Ultimate Tic-Tac-Toe
       </Typography>
       {winner()}
       <Grid container justify="center" className={classes.block}>
@@ -90,9 +67,6 @@ const App = () => {
       </Grid>
       <Button variant="contained" color="secondary" onClick={() => resetBoard()}>
         reset
-      </Button>
-      <Button variant="contained" color="secondary" onClick={() => callAPI(boardState)}>
-        call api
       </Button>
     </Container>
   );

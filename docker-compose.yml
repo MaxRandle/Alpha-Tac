@@ -8,14 +8,16 @@ services:
       context: ./client
       dockerfile: Dockerfile
     ports:
-      - 80:3000
+      - ${LOCAL_PORT}:${CLIENT_PORT}
     volumes:
       - ./client/src:/home/react/app/src
       - ./client/public:/home/react/app/public
       - node_modules:/home/node/app/node_modules
     networks:
       - app-network
-    command: npm start  
+    environment:
+      - API_PORT=${API_PORT}
+    command: npm start
 
   # SERVER
   uttt-server:  
@@ -24,12 +26,58 @@ services:
       context: ./server
       dockerfile: Dockerfile
     ports:
-      - 8080:8080
+      - ${API_PORT}:${API_PORT}
     volumes:
       - ./server:/home/node/app
       - node_modules:/home/node/app/node_modules
     networks:
       - app-network
+    environment:
+      - PORT=${API_PORT}
+    command: npm start
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+  node_modules:version: "3.5"
+
+services:
+  # CLIENT
+  uttt-www:
+    container_name: uttt-www
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - ${LOCAL_PORT}:${CLIENT_PORT}
+    volumes:
+      - ./client/src:/home/react/app/src
+      - ./client/public:/home/react/app/public
+      - node_modules:/home/node/app/node_modules
+    networks:
+      - app-network
+    environment:
+      - API_PORT=${API_PORT}
+    command: npm start
+
+  # SERVER
+  uttt-server:  
+    container_name: uttt-server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    # ports:
+    #   - ${API_PORT}:${API_PORT}
+    volumes:
+      - ./server:/home/node/app
+      - node_modules:/home/node/app/node_modules
+    networks:
+      - app-network
+    environment:
+      - PORT=${API_PORT}
     command: npm start
 
 networks:
