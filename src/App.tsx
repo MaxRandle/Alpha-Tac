@@ -1,25 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { MegaBoard } from "./components/MegaBoard";
+import { Board } from "./components/Board";
+import { Tile } from "./components/Tile";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MegaBoard>
+      {[...Array(9)].map((_board, boardIndex) => (
+        <Board key={boardIndex}>
+          {[...Array(9)].map((_tile, tileIndex) => (
+            <Tile key={tileIndex} board={boardIndex} tile={tileIndex} />
+          ))}
+        </Board>
+      ))}
+    </MegaBoard>
   );
 }
 
