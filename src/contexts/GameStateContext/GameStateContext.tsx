@@ -1,6 +1,27 @@
-import { createContext, ReactNode, useState } from "react";
-import { INITIAL_GAME_STATE, applyMoveToGameState } from "./helpers";
-import { GameState, Move } from "./types";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import {
+  INITIAL_GAME_STATE,
+  applyMoveToGameState,
+  getRandomMove,
+} from "./helpers";
+import { GameState, Move, Token } from "./types";
+
+interface IGameStateContext {
+  gameState: GameState;
+  playMove: (move: Move) => void;
+}
+
+const GameStateContext = createContext<IGameStateContext>({
+  gameState: INITIAL_GAME_STATE,
+  playMove: (move) => console.log(move),
+});
+export const useGameStateContext = () => useContext(GameStateContext);
 
 const GameStateContextProvider = ({ children }: { children: ReactNode }) => {
   const [gameState, setGameState] = useState<GameState>(INITIAL_GAME_STATE);
@@ -12,7 +33,12 @@ const GameStateContextProvider = ({ children }: { children: ReactNode }) => {
 
   const context = { gameState, playMove };
 
-  const GameStateContext = createContext(context);
+  useEffect(() => {
+    // plays on behalf of the agent
+    if (gameState.turn === Token.agent && gameState.victor === Token.unplayed) {
+      playMove(getRandomMove(gameState));
+    }
+  }, [gameState]);
 
   return (
     <GameStateContext.Provider value={context}>

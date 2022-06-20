@@ -202,3 +202,9 @@ export const isMoveLegal = (gameState: GameState, move: Move): boolean => {
       gameState.localVictories[gameState.lastMove.tile] !== Token.unplayed) // the board in the position of the lastMove tile position is won
   );
 };
+
+export const getRandomMove = (gameState: GameState) => {
+  const legalMoves = getLegalMoves(gameState);
+  const randomMove = legalMoves[Math.floor(Math.random() * legalMoves.length)];
+  return randomMove;
+};

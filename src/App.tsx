@@ -1,18 +1,17 @@
 import { MegaBoard } from "./components/MegaBoard";
 import { Board } from "./components/Board";
-import { Tile } from "./components/Tile";
+import GameStateContextProvider from "./contexts/GameStateContext/GameStateContext";
+import { Index } from "./contexts/GameStateContext";
 
 function App() {
   return (
-    <MegaBoard>
-      {[...Array(9)].map((_board, boardIndex) => (
-        <Board key={boardIndex}>
-          {[...Array(9)].map((_tile, tileIndex) => (
-            <Tile key={tileIndex} board={boardIndex} tile={tileIndex} />
-          ))}
-        </Board>
-      ))}
-    </MegaBoard>
+    <GameStateContextProvider>
+      <MegaBoard>
+        {[...Array(9)].map((_board, boardIndex) => (
+          <Board key={boardIndex} index={boardIndex as Index} />
+        ))}
+      </MegaBoard>
+    </GameStateContextProvider>
   );
 }
 

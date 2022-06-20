@@ -1,9 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
   --tile-bg: #37474f;
+  --tile-legal-bg: #0d47a1;
+  --tile-hover-bg: #1e88e5;
+
+  --body-color: white;
+
+  --draw-color: #78909c;
 }
 
 body {
@@ -14,6 +16,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  color: var(--body-color);
 }
 
 code {
