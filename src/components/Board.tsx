@@ -1,6 +1,6 @@
 import { IoMdClose, IoMdRadioButtonOff } from "react-icons/io";
 import { BiMinus } from "react-icons/bi";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import {
   Index,
   Token,
@@ -18,7 +18,7 @@ const StyledBoard = styled.div`
   grid-gap: 4px;
 `;
 
-const StyledVictoryBoard = styled.div`
+const StyledVictoryBoard = styled.div<{ isLastMove?: boolean }>`
   background-color: var(--tile-bg);
   border-radius: 4px;
   position: relative;
@@ -29,17 +29,20 @@ const StyledVictoryBoard = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
   }
+
+  ${({ isLastMove }) =>
+    isLastMove
+      ? css`
+          box-shadow: var(--tile-lastmove-box-shadow);
+        `
+      : ""}
 `;
 
 export const Board: React.FC<IBoardProps> = ({ index, ...props }) => {
   const { gameState } = useGameStateContext();
 
   const BOARD_VICTORY = gameState.localVictories[index];
-
-  // {BOARD_VICTORY === Token.unplayed ? (
-  //   ) : BOARD_VICTORY === Token.agent ? (
-  //     <StyledVictoryBoard></StyledVictoryBoard>
-  //   ) : null}
+  const IS_LAST_MOVE = gameState.lastMove.board === index;
 
   if (BOARD_VICTORY === Token.unplayed) {
     return (
@@ -56,7 +59,7 @@ export const Board: React.FC<IBoardProps> = ({ index, ...props }) => {
   }
 
   return (
-    <StyledVictoryBoard>
+    <StyledVictoryBoard isLastMove={IS_LAST_MOVE}>
       {BOARD_VICTORY === Token.agent ? (
         <IoMdRadioButtonOff color="white" size={52} />
       ) : BOARD_VICTORY === Token.player ? (
