@@ -38,7 +38,8 @@ const GameStateContextProvider = ({ children }: { children: ReactNode }) => {
     if (gameState.turn === Token.agent && gameState.victor === Token.unplayed) {
       playMove(getRandomMove(gameState));
     }
-  }, [gameState, playMove]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameState]);
 
   return (
     <GameStateContext.Provider value={context}>
