@@ -38,7 +38,7 @@ const GameStateContextProvider = ({ children }: { children: ReactNode }) => {
     if (gameState.turn === Token.agent && gameState.victor === Token.unplayed) {
       playMove(getRandomMove(gameState));
     }
-  }, [gameState]);
+  }, [gameState, playMove]);
 
   return (
     <GameStateContext.Provider value={context}>
