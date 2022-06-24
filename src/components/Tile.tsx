@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
-import { IoMdClose, IoMdRadioButtonOff } from "react-icons/io";
+import { IoMdClose } from "react-icons/io";
+import { BiRadioCircle } from "react-icons/bi";
 import {
   Index,
   isMoveLegal,
@@ -23,8 +24,8 @@ const StyledTile = styled.button<{ isLegal?: boolean; isLastMove?: boolean }>`
   position: relative;
 
   background-color: var(--tile-bg);
-  width: 32px;
-  height: 32px;
+  width: 100%;
+  height: 100%;
   border-radius: 4px;
 
   & > * {
@@ -32,6 +33,8 @@ const StyledTile = styled.button<{ isLegal?: boolean; isLastMove?: boolean }>`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
   }
 
   ${({ isLegal }) =>
@@ -77,9 +80,9 @@ export const Tile: React.FC<ITileProps> = ({ tile, board, ...props }) => {
       {...props}
     >
       {TOKEN === Token.agent ? (
-        <IoMdRadioButtonOff color="white" size={26} />
+        <BiRadioCircle color="white" />
       ) : TOKEN === Token.player ? (
-        <IoMdClose color="red" size={28} />
+        <IoMdClose color="red" />
       ) : null}
     </StyledTile>
   );

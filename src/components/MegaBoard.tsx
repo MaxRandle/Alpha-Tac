@@ -6,7 +6,8 @@ interface IMegaBoardProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const StyledDiv = styled.div`
-  display: inline-grid;
+  display: grid;
+  aspect-ratio: 1;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   grid-gap: 16px;

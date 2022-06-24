@@ -1,4 +1,5 @@
-import { IoMdClose, IoMdRadioButtonOff } from "react-icons/io";
+import { IoMdClose } from "react-icons/io";
+import { BiRadioCircle } from "react-icons/bi";
 import { BiMinus } from "react-icons/bi";
 import styled, { css } from "styled-components";
 import {
@@ -28,6 +29,8 @@ const StyledVictoryBoard = styled.div<{ isLastMove?: boolean }>`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
   }
 
   ${({ isLastMove }) =>
@@ -61,11 +64,11 @@ export const Board: React.FC<IBoardProps> = ({ index, ...props }) => {
   return (
     <StyledVictoryBoard isLastMove={IS_LAST_MOVE}>
       {BOARD_VICTORY === Token.agent ? (
-        <IoMdRadioButtonOff color="white" size={52} />
+        <BiRadioCircle color="white" />
       ) : BOARD_VICTORY === Token.player ? (
-        <IoMdClose color="red" size={56} />
+        <IoMdClose color="red" />
       ) : BOARD_VICTORY === Token.draw ? (
-        <BiMinus color="#78909c" size={60} />
+        <BiMinus color="#78909c" />
       ) : null}
     </StyledVictoryBoard>
   );
