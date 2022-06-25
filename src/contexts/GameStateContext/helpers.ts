@@ -223,7 +223,7 @@ export const staticEval = (gameState: GameState): number => {
   // weight given to megaboard so that it's valued more than the miniboards
   // the state of the large board should be valued more than the state of the small ones.
   // 8 is the maximum weight that can be assigned to a miniboard
-  const MEGABOARD_WEIGHT = 8;
+  const MEGABOARD_WEIGHT = 64;
 
   // check if the game is won
   if (gameState.victor === Token.agent) {
@@ -396,3 +396,9 @@ export const getBestMove = (gameState: GameState) => {
   console.log(`Evaluation: ${bestMove.score}`);
   return bestMove;
 };
+
+export async function getBestMoveAsync(gameState: GameState): Promise<Move> {
+  return new Promise<Move>((resolve) =>
+    setTimeout(() => resolve(getBestMove(gameState)), 0)
+  );
+}

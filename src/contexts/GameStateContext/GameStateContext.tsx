@@ -8,7 +8,7 @@ import {
 import {
   INITIAL_GAME_STATE,
   applyMoveToGameState,
-  getBestMove,
+  getBestMoveAsync,
 } from "./helpers";
 import { GameState, Move, Token } from "./types";
 
@@ -39,9 +39,9 @@ const GameStateContextProvider = ({ children }: { children: ReactNode }) => {
       gameState.turn === Token.agent &&
       gameState.victor === Token.unoccupied
     ) {
-      // playMove(getRandomMove(gameState));
-      playMove(getBestMove(gameState));
+      getBestMoveAsync(gameState).then((move) => playMove(move));
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState]);
 
