@@ -44,10 +44,10 @@ const StyledVictoryBoard = styled.div<{ isLastMove?: boolean }>`
 export const Board: React.FC<IBoardProps> = ({ index, ...props }) => {
   const { gameState } = useGameStateContext();
 
-  const BOARD_VICTORY = gameState.localVictories[index];
+  const BOARD_VICTORY = gameState.megaboard[index];
   const IS_LAST_MOVE = gameState.lastMove.board === index;
 
-  if (BOARD_VICTORY === Token.unplayed) {
+  if (BOARD_VICTORY === Token.unoccupied) {
     return (
       <StyledBoard {...props}>
         {[...Array(9)].map((_tile, tileIndex) => (

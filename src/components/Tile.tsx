@@ -69,7 +69,7 @@ export const Tile: React.FC<ITileProps> = ({ tile, board, ...props }) => {
     gameState.lastMove.board === board &&
     gameState.lastMove.tile === tile;
 
-  const TOKEN: Token = gameState.megaBoard[board][tile];
+  const TOKEN: Token = gameState.miniboards[board][tile];
 
   return (
     <StyledTile
